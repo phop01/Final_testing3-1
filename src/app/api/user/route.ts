@@ -45,13 +45,11 @@ export async function POST(request: Request) {
 
     return NextResponse.json(safeUser, { status: 201 });
   } catch (error: any) {
-    console.error("POST /api/user error:", error);
-    // handle unique constraint error if needed
-    if (error?.code === "P2002") {
-      return NextResponse.json({ error: "Email already in use" }, { status: 409 });
-    }
+    // เพิ่ม log แบบชัดเจน เพื่อดูสาเหตุจริงใน terminal / docker logs
+    console.error("POST /api/user error:", error?.message ?? error, error?.stack ?? "");
+    // ใน dev ให้ส่ง error message กลับ (เอาออกก่อน deploy)
     return NextResponse.json(
-      { error: "Failed to create user" },
+      { error: error?.message ?? "Failed to create user" },
       { status: 500 }
     );
   }
