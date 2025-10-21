@@ -19,7 +19,7 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <section className="flex flex-col items-center justify-center flex-1 text-center bg-gradient-to-r from-blue-100 to-purple-100">
-        <h2 className="text-4xl font-bold mb-4">Welcome to MyApp</h2>
+        <h2 className="text-4xl font-bold mb-4">Welcome to RaiRang</h2>
         <p className="text-lg mb-6">Your simple and modern web application starter</p>
         <div className="space-x-4">
           <Link href="/login" className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700">
