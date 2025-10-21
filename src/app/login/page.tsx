@@ -33,7 +33,10 @@ export default function Login() {
       if (data.token) {
         localStorage.setItem("token", data.token);
       }
-      router.push("/");
+      if (data.user) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+      }
+      router.push("/dashboard");
     } catch (err) {
       setError("Network error");
     } finally {
