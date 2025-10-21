@@ -1,0 +1,38 @@
+services:
+  # Service ที่ 1: API (Next.js)
+  api:
+    build: . # ใช้ Dockerfile ในโฟลเดอร์นี้
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      - db
+
+  # Service ที่ 2: Database (PostgreSQL)
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Service ที่ 3: pgAdmin
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: dogtemple@admin.com
+      PGADMIN_DEFAULT_PASSWORD: "123456"
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
