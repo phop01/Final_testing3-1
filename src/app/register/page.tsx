@@ -27,18 +27,14 @@ export default function Register() {
       });
 
       const data = await res.json();
-
       if (!res.ok) {
-        // handle common errors (validation / duplicate)
         setError(data?.error || "Failed to register");
         return;
       }
 
-      setSuccess("Registered successfully");
-      // redirect to login after short delay
-      setTimeout(() => router.push("/login"), 800);
+      setSuccess("✅ Registered successfully!");
+      setTimeout(() => router.push("/login"), 1000);
     } catch (err) {
-      console.error("Register error:", err);
       setError("Network error");
     } finally {
       setLoading(false);
@@ -46,20 +42,20 @@ export default function Register() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center">
+    <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-green-400 via-emerald-500 to-teal-600 p-4">
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-3 border p-6 rounded-md shadow-md w-full max-w-sm"
+        className="flex flex-col gap-4 bg-white/90 backdrop-blur-md p-8 rounded-2xl shadow-lg w-full max-w-md"
       >
-        <h1 className="text-2xl font-bold">Register</h1>
+        <h1 className="text-3xl font-bold text-center text-emerald-700">📝 Register</h1>
 
         {error && (
-          <div className="text-sm text-red-600 bg-red-100 p-2 rounded">
+          <div className="text-sm text-red-600 bg-red-100 p-2 rounded-md text-center">
             {error}
           </div>
         )}
         {success && (
-          <div className="text-sm text-green-700 bg-green-100 p-2 rounded">
+          <div className="text-sm text-green-700 bg-green-100 p-2 rounded-md text-center">
             {success}
           </div>
         )}
@@ -69,7 +65,7 @@ export default function Register() {
           name="name"
           placeholder="Name"
           onChange={handleChange}
-          className="border p-2"
+          className="border rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
           required
           value={form.name}
         />
@@ -78,7 +74,7 @@ export default function Register() {
           name="email"
           placeholder="Email"
           onChange={handleChange}
-          className="border p-2"
+          className="border rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
           required
           value={form.email}
         />
@@ -87,17 +83,25 @@ export default function Register() {
           name="password"
           placeholder="Password"
           onChange={handleChange}
-          className="border p-2"
+          className="border rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
           required
           value={form.password}
         />
+
         <button
           type="submit"
-          className="bg-blue-500 text-white p-2 rounded disabled:opacity-50"
+          className="bg-emerald-600 hover:bg-emerald-700 transition text-white font-semibold py-3 rounded-lg disabled:opacity-50"
           disabled={loading}
         >
           {loading ? "Registering..." : "Register"}
         </button>
+
+        <p className="text-sm text-gray-600 text-center">
+          Already have an account?{" "}
+          <a href="/login" className="text-emerald-600 hover:underline font-medium">
+            Login here
+          </a>
+        </p>
       </form>
     </main>
   );

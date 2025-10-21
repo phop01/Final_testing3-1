@@ -21,9 +21,8 @@ export default function Login() {
       const res = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: form.email, password: form.password }),
+        body: JSON.stringify(form),
       });
-
       const data = await res.json();
 
       if (!res.ok) {
@@ -31,15 +30,11 @@ export default function Login() {
         return;
       }
 
-      // เก็บ token (ชั่วคราว) — แนะนำเซ็ต HttpOnly cookie จาก server สำหรับ production
       if (data.token) {
         localStorage.setItem("token", data.token);
       }
-
-      // รีไดเรกต์หลัง login สำเร็จ
       router.push("/");
     } catch (err) {
-      console.error("Login error:", err);
       setError("Network error");
     } finally {
       setLoading(false);
@@ -47,15 +42,15 @@ export default function Login() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center">
+    <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-purple-500 via-indigo-500 to-blue-500 p-4">
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-3 border p-6 rounded-md shadow-md"
+        className="flex flex-col gap-4 bg-white/90 backdrop-blur-md p-8 rounded-2xl shadow-lg w-full max-w-md"
       >
-        <h1 className="text-2xl font-bold">Login</h1>
+        <h1 className="text-3xl font-bold text-center text-indigo-700">🔑 Login</h1>
 
         {error && (
-          <div className="text-sm text-red-600 bg-red-100 p-2 rounded">
+          <div className="text-sm text-red-600 bg-red-100 p-2 rounded-md text-center">
             {error}
           </div>
         )}
@@ -65,7 +60,7 @@ export default function Login() {
           name="email"
           placeholder="Email"
           onChange={handleChange}
-          className="border p-2"
+          className="border rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-indigo-400"
           required
           value={form.email}
         />
@@ -74,17 +69,25 @@ export default function Login() {
           name="password"
           placeholder="Password"
           onChange={handleChange}
-          className="border p-2"
+          className="border rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-indigo-400"
           required
           value={form.password}
         />
+
         <button
           type="submit"
-          className="bg-green-500 text-white p-2 rounded"
+          className="bg-indigo-600 hover:bg-indigo-700 transition text-white font-semibold py-3 rounded-lg disabled:opacity-50"
           disabled={loading}
         >
           {loading ? "Logging in..." : "Login"}
         </button>
+
+        <p className="text-sm text-gray-600 text-center">
+          Don’t have an account?{" "}
+          <a href="/register" className="text-indigo-600 hover:underline font-medium">
+            Register here
+          </a>
+        </p>
       </form>
     </main>
   );
