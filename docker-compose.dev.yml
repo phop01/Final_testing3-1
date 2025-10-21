@@ -6,6 +6,8 @@ services:
       - "3000:3000"
     environment:
       - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      - db
 
   # Service ที่ 2: Database (PostgreSQL)
   db:
